@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- favicon -->
+    <link rel="icon" href="./assets/images/favicon-32x32.png">
+    <!-- meta tags -->
+    <title>Time tracking dashboard</title>
+    <meta title="title" content="Time tracking dashboard">
+    <meta title="description" content="this is Time tracking dashboard">
+    <!-- font google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <!-- custom css link -->
+    <link rel="stylesheet" href="./assets/css/styles.css">
+  </head>
+  <body>
+    <main class="main section" data-push-json-in-main>
+      <div class="container">
+        <div class="card-primary">
+          <div class="card-title">
+            <img src="./assets/images/image-jeremy.png" alt="image-jeremy" class="avatar">
+
+            <div class="card-content">
+              <p>Report for</p>
+              <h2>Jeremy Robson</h2>
+            </div>
+          </div>
+
+          <div class="btn-list">
+            <button @click="btnDaily()" class="btn-card" data-Daily>Daily</button>
+            <button @click="btnWeekly()" class="btn-card active" data-Weekly>Weekly</button>
+            <button @click="btnMonthly()" class="btn-card" data-Monthly>Monthly</button>
+          </div>
+        </div>
+
+        <ul class="card-list" data-card-list>
+          <li class="card-item bg-1">
+            <div class="bg-card">
+              <img src="./assets/images/icon-work.svg" alt="icon-work" class="img-bg-card">
+            </div>
+
+            <div class="card-body">
+              <div class="card-title">
+                <p>Work</p>
+                <img src="./assets/images/icon-ellipsis.svg" alt="icon-ellipsis" class="btn-ellipsis">
+              </div>
+
+              <div class="card-content">
+                <h1>32hrs</h1>
+                <p>Previous - 36hrs</p>
+              </div>
+            </div>
+          </li>
+
+          <li class="card-item bg-2">
+            <div class="bg-card">
+              <img src="./assets/images/icon-play.svg" alt="icon-work" class="img-bg-card">
+            </div>
+
+            <div class="card-body">
+              <div class="card-title">
+                <p>Play</p>
+                <img src="./assets/images/icon-ellipsis.svg" alt="icon-ellipsis" class="btn-ellipsis">
+              </div>
+
+              <div class="card-content">
+                <h1>10hrs</h1>
+                <p>Previous - 8hrs</p>
+              </div>
+            </div>
+          </li>
+
+          <li class="card-item bg-3">
+            <div class="bg-card">
+              <img src="./assets/images/icon-Study.svg" alt="icon-work" class="img-bg-card">
+            </div>
+
+            <div class="card-body">
+              <div class="card-title">
+                <p>Study</p>
+                <img src="./assets/images/icon-ellipsis.svg" alt="icon-ellipsis" class="btn-ellipsis">
+              </div>
+
+              <div class="card-content">
+                <h1>4hrs</h1>
+                <p>Previous - 7hrs</p>
+              </div>
+            </div>
+          </li>
+
+          <li class="card-item bg-4">
+            <div class="bg-card">
+              <img src="./assets/images/icon-Exercise.svg" alt="icon-Exercise" class="img-bg-card">
+            </div>
+
+            <div class="card-body">
+              <div class="card-title">
+                <p>Exercise</p>
+                <img src="./assets/images/icon-ellipsis.svg" alt="icon-ellipsis" class="btn-ellipsis">
+              </div>
+
+              <div class="card-content">
+                <h1>4hrs</h1>
+                <p>Previous - 5hrs</p>
+              </div>
+            </div>
+          </li>
+
+          <li class="card-item bg-5">
+            <div class="bg-card">
+              <img src="./assets/images/icon-Social.svg" alt="icon-Social" class="img-bg-card">
+            </div>
+
+            <div class="card-body">
+              <div class="card-title">
+                <p>Social</p>
+                <img src="./assets/images/icon-ellipsis.svg" alt="icon-ellipsis" class="btn-ellipsis">
+              </div>
+
+              <div class="card-content">
+                <h1>5hrs</h1>
+                <p>Previous - 10hrs</p>
+              </div>
+            </div>
+          </li>
+
+          <li class="card-item bg-6">
+            <div class="bg-card">
+              <img src="./assets/images/icon-Self-Care.svg" alt="icon-Self-Care" class="img-bg-card">
+            </div>
+
+            <div class="card-body">
+              <div class="card-title">
+                <p>Self Care</p>
+                <img src="./assets/images/icon-ellipsis.svg" alt="icon-ellipsis" class="btn-ellipsis">
+              </div>
+
+              <div class="card-content">
+                <h1>2hrs</h1>
+                <p>Previous - 2hrs</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </main>
+
+    <!-- custom vue link -->
+    <script src="./assets/js/vue.js"></script>
+    <script>
+      var vm = new Vue({
+        el: "[data-push-json-in-main]",
+        data: {
+        },
+        methods: {
+          btnDaily: function() {
+            document.querySelector("[data-Daily]").classList.add("active");
+            document.querySelector("[data-Weekly]").classList.remove("active");
+            document.querySelector("[data-Monthly]").classList.remove("active");
+
+            const cardList = document.querySelector("[data-card-list]");
+
+            cardList.innerHTML = "";
+
+            let i = 1;
+
+            fetch("./assets/json/data.json")
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+              };
+              return response.json();
+            })
+            .then(data => {
+              data.forEach(item => {
+                cardList.innerHTML += `
+                  <li class="card-item bg-${i++}">
+                    <div class="bg-card">
+                      <img src="./assets/images/icon-${item.title}.svg" alt="icon-work" class="img-bg-card">
+                    </div>
+
+                    <div class="card-body">
+                      <div class="card-title">
+                        <p>${item.title}</p>
+                        <img src="./assets/images/icon-ellipsis.svg" alt="icon-ellipsis" class="btn-ellipsis">
+                      </div>
+
+                      <div class="card-content">
+                        <h1>${item.timeframes.daily.current}hrs</h1>
+                        <p>Previous - ${item.timeframes.daily.previous}hrs</p>
+                      </div>
+                    </div>
+                  </li>
+                `;
+              });
+            });
+          },
+          btnWeekly: function() {
+            document.querySelector("[data-Weekly]").classList.add("active");
+            document.querySelector("[data-Daily]").classList.remove("active");
+            document.querySelector("[data-Monthly]").classList.remove("active");
+
+            const cardList = document.querySelector("[data-card-list]");
+
+            cardList.innerHTML = "";
+
+            let i = 1;
+
+            fetch("./assets/json/data.json")
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+              };
+              return response.json();
+            })
+            .then(data => {
+              data.forEach(item => {
+                cardList.innerHTML += `
+                  <li class="card-item bg-${i++}">
+                    <div class="bg-card">
+                      <img src="./assets/images/icon-${item.title}.svg" alt="icon-work" class="img-bg-card">
+                    </div>
+
+                    <div class="card-body">
+                      <div class="card-title">
+                        <p>${item.title}</p>
+                        <img src="./assets/images/icon-ellipsis.svg" alt="icon-ellipsis" class="btn-ellipsis">
+                      </div>
+
+                      <div class="card-content">
+                        <h1>${item.timeframes.weekly.current}hrs</h1>
+                        <p>Previous - ${item.timeframes.weekly.previous}hrs</p>
+                      </div>
+                    </div>
+                  </li>
+                `;
+              });
+            });
+          },
+          btnMonthly: function() {
+            document.querySelector("[data-Monthly]").classList.add("active");
+            document.querySelector("[data-Weekly]").classList.remove("active");
+            document.querySelector("[data-Daily]").classList.remove("active");
+
+            const cardList = document.querySelector("[data-card-list]");
+
+            cardList.innerHTML = "";
+
+            let i = 1;
+
+            fetch("./assets/json/data.json")
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+              };
+              return response.json();
+            })
+            .then(data => {
+              data.forEach(item => {
+                cardList.innerHTML += `
+                  <li class="card-item bg-${i++}">
+                    <div class="bg-card">
+                      <img src="./assets/images/icon-${item.title}.svg" alt="icon-work" class="img-bg-card">
+                    </div>
+
+                    <div class="card-body">
+                      <div class="card-title">
+                        <p>${item.title}</p>
+                        <img src="./assets/images/icon-ellipsis.svg" alt="icon-ellipsis" class="btn-ellipsis">
+                      </div>
+
+                      <div class="card-content">
+                        <h1>${item.timeframes.monthly.current}hrs</h1>
+                        <p>Previous - ${item.timeframes.monthly.previous}hrs</p>
+                      </div>
+                    </div>
+                  </li>
+                `;
+              });
+            });
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
